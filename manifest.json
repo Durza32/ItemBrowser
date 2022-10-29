@@ -1,0 +1,6 @@
+{
+  "namespace": "itemBrowserNamespace",
+  "icon": "https://cdn.melvor.net/core/v018/assets/media/main/lore.svg",
+  "setup": "src/setup.mjs",
+  "load": ["src/template.html"]
+}
