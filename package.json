@@ -1,15 +1,14 @@
 {
   "name": "item-browser",
+  "scripts": {
+    "build": "npx tsc"
+  },
   "version": "0.1",
   "description": "Official Type Definitions for Melvor Idle",
   "license": "GPL-3.0",
   "author": {
     "name": "Durza"
   },
-  "files": [
-    "**/src/gameTypes",
-    "**/src/libraryTypes"
-  ],
   "private": true,
   "devDependencies": {
     "@types/bootstrap": "^4.5.0",
