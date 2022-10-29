@@ -9,7 +9,7 @@
     "skipLibCheck": true,
     "outDir": "./.build"
   },
-  "include": ["./src/*", "./src/libraryTypes/*", "./src/gameTypes/*"],
+  "include": ["./src/**/*"],
   "typeAcquisition": {
     "enable": true
   }
