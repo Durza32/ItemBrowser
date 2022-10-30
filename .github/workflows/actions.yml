@@ -29,13 +29,13 @@ jobs:
       - name: Copy Manifest.json
         run: cp manifest.json ./.build/exampleMod/
       - name: Zip mod folder
-        run: zip -r ./.build/exampleMod.zip ./.build
+        run: zip -r exampleMod.zip ./.build
       - name: Upload Artifact
         if: success()
         uses: actions/upload-artifact@v3
         with:
           name: exampleModZipFile
-          path: ./.build/exampleMod.zip
+          path: ./exampleMod.zip
   upload:
     needs: setup-and-build-npm
     runs-on: ubuntu-latest
@@ -44,10 +44,21 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: exampleModZipFile
+      - name: Extract config data
+        id: config-data
+        run: |
+          GAME_ID=$(jq 'game' config.json)
+          MOD_ID=$(jq 'mod' config.json)
+          VERSION=$(jq 'version' config.json)
+ 
+          echo "{GAME}={GAME_ID}" >> $GITHUB_OUTPUT
+          echo "{MOD}={MOD_ID}" >> $GITHUB_OUTPUT
+          echo "{VERSION}={VERSION_ID}" >> $GITHUB_OUTPUT
       - name: Upload to mod.io
         uses: nickelc/upload-to-modio@v1
         with:
           token: ${{ secrets.MODIO_TOKEN }}
-          game: 2869
-          mod: 2431214
+          game: ${{ steps.config-data.outputs.GAME }}
+          mod: ${{ steps.config-data.outputs.MOD }}
+          version: ${{ steps.config-data.outputs.Version }}
           path: ./exampleMod.zip
