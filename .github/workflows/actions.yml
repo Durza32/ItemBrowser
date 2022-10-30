@@ -24,3 +24,7 @@ jobs:
         run: npm ci --ignore-scripts
       - name: Build
         run: npm run build
+      - name: Copy Manifest.json
+        run: cp maifest.json ./.build/exampleMod/
+      - run: cd .\.build\exampleMod
+      - run: ls
