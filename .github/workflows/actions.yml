@@ -9,8 +9,10 @@ jobs:
   setup-and-build-npm:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: Set up files
+        uses: actions/checkout@v3
+      - name: Set up node
+        uses: actions/setup-node@v3
         with:
           node-version: "18"
       - name: Cache node modules
@@ -28,6 +30,19 @@ jobs:
         run: cp manifest.json ./.build/exampleMod/
       - name: Zip mod folder
         run: zip -r exampleMod.zip ./.build/exampleMod
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: exampleModZipFile
+          path: ./.build/exampleMod.zip
+  upload:
+    needs: setup-and-build-npm
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: exampleModZipFile
       - name: Upload to mod.io
         uses: nickelc/upload-to-modio@v1
         with:
