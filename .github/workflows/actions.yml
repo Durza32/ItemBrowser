@@ -50,4 +50,4 @@ jobs:
           token: ${{ secrets.MODIO_TOKEN }}
           game: 2869
           mod: 2431214
-          path: ./.build/exampleMod.zip
+          path: ./exampleMod.zip
