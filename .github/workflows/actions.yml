@@ -30,3 +30,9 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
+  build:
+    needs: setup-and-cache-npm
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build mod file
+        run: npm run build
