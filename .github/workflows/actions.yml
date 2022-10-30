@@ -26,5 +26,5 @@ jobs:
         run: npm run build
       - name: Copy Manifest.json
         run: cp manifest.json ./.build/exampleMod/
-      - run: cd ./.build/exampleMod
-      - run: ls
+      - run: ls ./.build
+      - run: ls ./.build/exampleMod
