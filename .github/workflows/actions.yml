@@ -28,3 +28,4 @@ jobs:
         run: cp manifest.json ./.build/exampleMod/
       - run: ls ./.build
       - run: ls ./.build/exampleMod
+      - run: ls ./.build/exampleMod/src
