@@ -28,6 +28,12 @@ jobs:
         run: cp manifest.json ./.build/exampleMod/
       - name: Zip mod folder
         run: zip -r exampleMod.zip ./.build/exampleMod
-      - run: ls ./.build
+  list-files:
+    runs-on: ubuntu-latest
+    needs: setup-and-build-npm
+    steps:
+      - uses: actions/checkout@v3
+      - name: List files
+        run: ls ./.build
       - run: ls ./.build/exampleMod
       - run: ls ./.build/exampleMod/src
