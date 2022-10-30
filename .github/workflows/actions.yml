@@ -25,8 +25,8 @@ jobs:
       - name: Build
         run: npm run build
       - name: Copy Manifest.json
-        run: cp manifest.json ./.build/${{ github.event.repository.name }}/
-      - run: zip -r 
+        run: cp manifest.json ./.build/exampleMod/
+      - run: zip -r exampleMod.zip ./.build/exampleMod
       - run: ls ./.build
-      - run: ls ./.build/${{ github.event.repository.name }}
-      - run: ls ./.build/${{ github.event.repository.name }}/src
+      - run: ls ./.build/exampleMod
+      - run: ls ./.build/exampleMod/src
