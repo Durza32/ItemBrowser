@@ -13,26 +13,13 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: "18"
-      - name: Install Packages
-        run: npm install
       - name: Cache node modules
-        id: cache-npm
+        id: cache
         uses: actions/cache@v3
-        env:
-          cache-name: cache-node-modules
         with:
-          # npm cache files are stored in `~/.npm` on Linux/macOS
-          path: |
-            ~/.npm
-            ~/node_modules
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-  build:
-    needs: setup-and-cache-npm
-    runs-on: ubuntu-latest
-    steps:
-      - name: Build mod file
-        run: npm run build
+          path: ./node_modules
+          key: modules-${{ hashFiles('package-lock.json') }}
+      - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci --ignore-scripts
+
