@@ -47,9 +47,9 @@ jobs:
       - name: Extract config data
         id: config-data
         run: |
-          GAME_ID=$(jq 'game' config.json)
-          MOD_ID=$(jq 'mod' config.json)
-          VERSION=$(jq 'version' config.json)
+          GAME_ID=$(jq '.game' config.json)
+          MOD_ID=$(jq '.mod' config.json)
+          VERSION=$(jq '.version' config.json)
  
           echo "{GAME}={GAME_ID}" >> $GITHUB_OUTPUT
           echo "{MOD}={MOD_ID}" >> $GITHUB_OUTPUT
