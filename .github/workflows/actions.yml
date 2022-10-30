@@ -40,6 +40,8 @@ jobs:
     needs: setup-and-build-npm
     runs-on: ubuntu-latest
     steps:
+      - name: Set up files
+        uses: actions/checkout@v3
       - name: Download Artifact
         uses: actions/download-artifact@v3
         with:
