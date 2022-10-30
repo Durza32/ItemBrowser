@@ -26,7 +26,8 @@ jobs:
         run: npm run build
       - name: Copy Manifest.json
         run: cp manifest.json ./.build/exampleMod/
-      - run: zip -r exampleMod.zip ./.build/exampleMod
+      - name: Zip mod folder
+        run: zip -r exampleMod.zip ./.build/exampleMod
       - run: ls ./.build
       - run: ls ./.build/exampleMod
       - run: ls ./.build/exampleMod/src
