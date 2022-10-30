@@ -6,7 +6,7 @@ on:
       - develop
 
 jobs:
-  setup-and-cache-npm:
+  setup-and-build-npm:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -22,4 +22,5 @@ jobs:
       - name: Install dependencies
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci --ignore-scripts
-
+      - name: Build
+        run: npm run build
