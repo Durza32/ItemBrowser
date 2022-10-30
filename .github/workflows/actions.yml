@@ -28,7 +28,8 @@ jobs:
         run: cp manifest.json ./.build/exampleMod/
       - name: Zip mod folder
         run: zip -r exampleMod.zip ./.build/exampleMod
-      - uses: nickelc/upload-to-modio@v1
+      - name: Upload to mod.io
+        uses: nickelc/upload-to-modio@v1
         with:
           token: ${{ secrets.MODIO_TOKEN }}
           game: 2869
