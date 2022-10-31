@@ -53,9 +53,9 @@ jobs:
           mod_id=$(jq '.mod' config.json)
           version=$(jq '.version' config.json)
  
-          echo "game={game_id}" >> $GITHUB_OUTPUT
-          echo "mod={mod_id}" >> $GITHUB_OUTPUT
-          echo "version={version}" >> $GITHUB_OUTPUT
+          echo "game=${game_id}" >> $GITHUB_OUTPUT
+          echo "mod=${mod_id}" >> $GITHUB_OUTPUT
+          echo "version=${version}" >> $GITHUB_OUTPUT
       - name: Upload to mod.io
         uses: nickelc/upload-to-modio@v1
         with:
