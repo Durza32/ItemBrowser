@@ -64,3 +64,4 @@ jobs:
           mod: ${{ steps.config.outputs.mod }}
           version: ${{ steps.config.outputs.version }}
           path: ./exampleMod.zip
+          active: false
