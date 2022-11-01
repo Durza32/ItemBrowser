@@ -35,7 +35,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: exampleModZipFile
-          path: ./exampleMod.zip
+          path: ./.build/exampleMod.zip
   upload:
     needs: setup-and-build-npm
     runs-on: ubuntu-latest
