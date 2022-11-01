@@ -11,31 +11,41 @@ jobs:
     steps:
       - name: Set up files
         uses: actions/checkout@v3
+
       - name: Set up node
+        uses: actions/checkout@v3
         uses: actions/setup-node@v3
         with:
-          node-version: "18"
+          node-version: '18'
+          cache: 'yarn'
+      
       - name: Cache node modules
         id: cache
         uses: actions/cache@v3
         with:
           path: ./node_modules
-          key: modules-${{ hashFiles('package-lock.json') }}
+          key: modules-${{ hashFiles('yarn.lock') }}
+
       - name: Install dependencies
         if: steps.cache.outputs.cache-hit != 'true'
-        run: npm ci --ignore-scripts
+        run: yarn install --frozen-lockfile
+
       - name: Build
         run: npm run build
+
       - name: Copy Manifest.json
         run: cp manifest.json ./.build/
+
       - name: Zip mod folder
         run: zip -r ./.build/exampleMod.zip ./.build/
+
       - name: Upload Artifact
         if: success()
         uses: actions/upload-artifact@v3
         with:
           name: exampleModZipFile
           path: ./.build/exampleMod.zip
+          
   upload:
     needs: setup-and-build-npm
     runs-on: ubuntu-latest
