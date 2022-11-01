@@ -1,4 +1,4 @@
 {
   "namespace": "itemBrowserNamespace",
-  "setup": "setup.ts"
+  "setup": "setup.js"
 }
