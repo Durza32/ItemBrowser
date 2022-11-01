@@ -29,7 +29,7 @@ jobs:
       - name: Copy Manifest.json
         run: cp manifest.json ./.build/
       - name: Zip mod folder
-        run: zip -r exampleMod.zip ./.build
+        run: zip -r ./.build/exampleMod.zip ./.build
       - name: Upload Artifact
         if: success()
         uses: actions/upload-artifact@v3
