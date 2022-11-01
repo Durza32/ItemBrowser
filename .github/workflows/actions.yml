@@ -27,9 +27,9 @@ jobs:
       - name: Build
         run: npm run build
       - name: Copy Manifest.json
-        run: cp manifest.json ./.build/exampleMod/
+        run: cp manifest.json ./.build/
       - name: Zip mod folder
-        run: zip -r exampleMod.zip ./.build/exampleMod/
+        run: zip -r exampleMod.zip ./.build
       - name: Upload Artifact
         if: success()
         uses: actions/upload-artifact@v3
