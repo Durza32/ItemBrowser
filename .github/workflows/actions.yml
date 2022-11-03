@@ -65,6 +65,9 @@ jobs:
           echo "game=${game_id}" >> $GITHUB_OUTPUT
           echo "mod=${mod_id}" >> $GITHUB_OUTPUT
           echo "version=${version}" >> $GITHUB_OUTPUT
+      - name: Check files
+        run: ls
+        
       - name: Upload to mod.io
         uses: Durza32/upload-to-modio@v1.3
         with:
