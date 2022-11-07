@@ -75,5 +75,5 @@ jobs:
           game: ${{ steps.config.outputs.game }}
           mod: ${{ steps.config.outputs.mod }}
           version: ${{ steps.config.outputs.version }}
-          path: ../exampleMod.zip
+          path: ./exampleMod.zip
           active: false
