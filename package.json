@@ -3,12 +3,8 @@
   "scripts": {
     "build": "npx tsc"
   },
-  "version": "0.1",
   "description": "This is an example mod",
-  "license": "GPL-3.0",
-  "author": {
-    "name": "Durza"
-  },
+  "license": "MIT",
   "private": true,
   "devDependencies": {
     "@types/bootstrap": "^4.5.0",
