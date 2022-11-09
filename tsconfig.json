@@ -7,7 +7,7 @@
     "moduleResolution": "node",
     "module": "ES2020",
     "skipLibCheck": true,
-    "outDir": "./.build/src"
+    "outDir": ".build"
   },
   "include": ["./src/**/*"],
   "typeAcquisition": {
