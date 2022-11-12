@@ -2,8 +2,9 @@ name: Melvor Idle Example Mod Actions
 
 on:
   push:
-    branches:
-      - develop
+    branches: [develop]
+  pull_request:
+    branches: [main]
 
 jobs:
   setup-and-build-npm:
@@ -80,4 +81,3 @@ jobs:
           version: ${{ steps.config.outputs.version }}
           path: ./exampleMod.zip
           active: false
-
