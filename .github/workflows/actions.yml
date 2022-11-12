@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - develop
-  workflow_dispatch:
-    branches:
-      - develop
   pull_request:
     types:
       - closed
@@ -65,9 +62,9 @@ jobs:
         with:
           name: ${{ github.ref_name }}-exampleModZipFile
 
-      - if: github.ref_name == 'develop'
-        name: Extract development config data
+      - name: Extract config data
         id: config
+        if: github.ref_name == 'develop'
         run: |
           game_id=$(jq '.game' config.json)
           mod_id=$(jq '.mod' config.json)
@@ -78,10 +75,7 @@ jobs:
           echo "mod=${mod_id}" >> $GITHUB_OUTPUT
           echo "version=${version}" >> $GITHUB_OUTPUT
           echo "active=${active}" >> $GITHUB_OUTPUT
-
-      - if: github.ref_name == 'main'
-        name: Extract production config data
-        id: config
+        if: github.ref_name == 'main'
         run: |
           game_id=$(jq '.game' config.json)
           mod_id=$(jq '.mod' config.json)
