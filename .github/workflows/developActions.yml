@@ -4,14 +4,9 @@ on:
   push:
     branches:
       - develop
-  pull_request:
-    types:
-      - closed
-    branches:
-      - main
 
 jobs:
-  setup-and-build:
+  setup-and-build-develop-branch:
     runs-on: ubuntu-22.04
     steps:
       - name: Set up files
@@ -50,8 +45,8 @@ jobs:
           name: ${{ github.ref_name }}-exampleModZipFile
           path: ./.build/exampleMod.zip
 
-  upload:
-    needs: setup-and-build
+  upload-develop-branch:
+    needs: setup-and-build-develop-branch
     runs-on: ubuntu-22.04
     steps:
       - name: Set up files
@@ -64,23 +59,11 @@ jobs:
 
       - name: Extract config data
         id: config
-        if: github.ref_name == 'develop'
         run: |
           game_id=$(jq '.game' config.json)
           mod_id=$(jq '.mod' config.json)
           version=$(jq -r '.develop.version' config.json)
           active=$(jq -r '.develop.active' config.json)
-
-          echo "game=${game_id}" >> $GITHUB_OUTPUT
-          echo "mod=${mod_id}" >> $GITHUB_OUTPUT
-          echo "version=${version}" >> $GITHUB_OUTPUT
-          echo "active=${active}" >> $GITHUB_OUTPUT
-        if: github.ref_name == 'main'
-        run: |
-          game_id=$(jq '.game' config.json)
-          mod_id=$(jq '.mod' config.json)
-          version=$(jq -r '.production.version' config.json)
-          active=$(jq -r '.production.active' config.json)
 
           echo "game=${game_id}" >> $GITHUB_OUTPUT
           echo "mod=${mod_id}" >> $GITHUB_OUTPUT
