@@ -2,7 +2,7 @@ name: Melvor Idle Example Mod Actions
 
 on:
   push:
-    branches: 
+    branches:
       - develop
   pull_request:
     types:
@@ -20,7 +20,7 @@ jobs:
       - name: Set up node
         uses: actions/setup-node@v3
         with:
-          node-version: "18"
+          node-version: "16"
           cache: "yarn"
 
       - name: Cache node modules
@@ -67,7 +67,7 @@ jobs:
         run: |
           game_id=$(jq '.game' config.json)
           mod_id=$(jq '.mod' config.json)
-          version=$(jq '.version' config.json)
+          version=$(jq -r '.version' config.json)
 
           echo "game=${game_id}" >> $GITHUB_OUTPUT
           echo "mod=${mod_id}" >> $GITHUB_OUTPUT
