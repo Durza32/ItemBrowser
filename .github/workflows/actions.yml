@@ -2,9 +2,13 @@ name: Melvor Idle Example Mod Actions
 
 on:
   push:
-    branches: [develop]
+    branches: 
+      - develop
   pull_request:
-    branches: [main]
+    types:
+      - closed
+    branches:
+      - main
 
 jobs:
   setup-and-build-npm:
