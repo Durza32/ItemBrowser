@@ -1,0 +1,83 @@
+name: Melvor Idle Example Mod Actions
+
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main
+
+jobs:
+  setup-and-build-production-branch:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Set up files
+        uses: actions/checkout@v3
+
+      - name: Set up node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+          cache: "yarn"
+
+      - name: Cache node modules
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: ./node_modules
+          key: ${{ github.ref_name }}-modules-${{ hashFiles('yarn.lock') }}
+
+      - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: yarn install --frozen-lockfile
+
+      - name: Build
+        run: npm run build
+
+      - name: Copy Manifest.json
+        run: cp manifest.json ./.build/
+
+      - name: Zip mod folder
+        run: zip -r ./.build/exampleMod.zip ./.build/
+
+      - name: Upload Artifact
+        if: success()
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ github.ref_name }}-exampleModZipFile
+          path: ./.build/exampleMod.zip
+
+  upload-production-branch:
+    needs: setup-and-build-production-branch
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Set up files
+        uses: actions/checkout@v3
+
+      - name: Download Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ github.ref_name }}-exampleModZipFile
+
+      - name: Extract config data
+        id: config
+        run: |
+          game_id=$(jq '.game' config.json)
+          mod_id=$(jq '.mod' config.json)
+          version=$(jq -r '.production.version' config.json)
+          active=$(jq -r '.production.active' config.json)
+
+          echo "game=${game_id}" >> $GITHUB_OUTPUT
+          echo "mod=${mod_id}" >> $GITHUB_OUTPUT
+          echo "version=${version}" >> $GITHUB_OUTPUT
+          echo "active=${active}" >> $GITHUB_OUTPUT
+
+      - name: Upload to mod.io
+        uses: nickelc/upload-to-modio@v2.0.0
+        with:
+          token: ${{ secrets.MODIO_TOKEN }}
+          game: ${{ steps.config.outputs.game }}
+          mod: ${{ steps.config.outputs.mod }}
+          version: ${{ steps.config.outputs.version }}
+          path: ./exampleMod.zip
+          active: ${{ steps.config.outputs.active }}

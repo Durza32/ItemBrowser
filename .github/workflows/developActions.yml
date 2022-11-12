@@ -2,16 +2,11 @@ name: Melvor Idle Example Mod Actions
 
 on:
   push:
-    branches: 
-      - develop
-  pull_request:
-    types:
-      - closed
     branches:
-      - main
+      - develop
 
 jobs:
-  setup-and-build-npm:
+  setup-and-build-develop-branch:
     runs-on: ubuntu-22.04
     steps:
       - name: Set up files
@@ -20,7 +15,7 @@ jobs:
       - name: Set up node
         uses: actions/setup-node@v3
         with:
-          node-version: "18"
+          node-version: "16"
           cache: "yarn"
 
       - name: Cache node modules
@@ -28,7 +23,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ./node_modules
-          key: modules-${{ hashFiles('yarn.lock') }}
+          key: ${{ github.ref_name }}-modules-${{ hashFiles('yarn.lock') }}
 
       - name: Install dependencies
         if: steps.cache.outputs.cache-hit != 'true'
@@ -47,11 +42,11 @@ jobs:
         if: success()
         uses: actions/upload-artifact@v3
         with:
-          name: exampleModZipFile
+          name: ${{ github.ref_name }}-exampleModZipFile
           path: ./.build/exampleMod.zip
 
-  upload:
-    needs: setup-and-build-npm
+  upload-develop-branch:
+    needs: setup-and-build-develop-branch
     runs-on: ubuntu-22.04
     steps:
       - name: Set up files
@@ -60,21 +55,20 @@ jobs:
       - name: Download Artifact
         uses: actions/download-artifact@v3
         with:
-          name: exampleModZipFile
+          name: ${{ github.ref_name }}-exampleModZipFile
 
       - name: Extract config data
         id: config
         run: |
           game_id=$(jq '.game' config.json)
           mod_id=$(jq '.mod' config.json)
-          version=$(jq '.version' config.json)
+          version=$(jq -r '.develop.version' config.json)
+          active=$(jq -r '.develop.active' config.json)
 
           echo "game=${game_id}" >> $GITHUB_OUTPUT
           echo "mod=${mod_id}" >> $GITHUB_OUTPUT
           echo "version=${version}" >> $GITHUB_OUTPUT
-
-      - name: Check files
-        run: ls
+          echo "active=${active}" >> $GITHUB_OUTPUT
 
       - name: Upload to mod.io
         uses: nickelc/upload-to-modio@v2.0.0
@@ -84,4 +78,4 @@ jobs:
           mod: ${{ steps.config.outputs.mod }}
           version: ${{ steps.config.outputs.version }}
           path: ./exampleMod.zip
-          active: false
+          active: ${{ steps.config.outputs.active }}
