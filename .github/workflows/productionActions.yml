@@ -62,7 +62,7 @@ jobs:
           git rebase main
 
           git add -A
-          git tag versioning
+          git tag prod-versioning
           git commit -m 'Update Version'
           git push -f
 
