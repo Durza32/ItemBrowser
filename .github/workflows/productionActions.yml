@@ -17,8 +17,8 @@ jobs:
       - name: Set up node
         uses: actions/setup-node@v3
         with:
-          node-version: "16"
-          cache: "yarn"
+          node-version: '16'
+          cache: 'yarn'
 
       - name: Cache node modules
         id: cache
@@ -54,6 +54,9 @@ jobs:
       - name: Set up files
         uses: actions/checkout@v3
 
+      - name: Update Versioning
+        run: node versioning/minorVersion.mjs
+
       - name: Download Artifact
         uses: actions/download-artifact@v3
         with:
@@ -64,7 +67,7 @@ jobs:
         run: |
           game_id=$(jq '.game' config.json)
           mod_id=$(jq '.mod' config.json)
-          version=$(jq -r '.production.version' config.json)
+          version=$(jq -r '.version' config.json)
           active=$(jq -r '.production.active' config.json)
 
           echo "game=${game_id}" >> $GITHUB_OUTPUT
