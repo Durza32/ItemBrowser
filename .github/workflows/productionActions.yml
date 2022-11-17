@@ -63,7 +63,7 @@ jobs:
 
           git add -A
           git tag prod-versioning
-          git rm tmp_protection_rules.json
+          git rm tmp_protection_rules.json -f
           git commit -m 'Update Version'
           git push -f
 
