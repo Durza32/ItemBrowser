@@ -53,7 +53,7 @@ jobs:
       - name: Rebase Develop on Main to update the version number
         if: success()
         run: |
-          echo git branch
+          git branch
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
 
