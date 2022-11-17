@@ -42,7 +42,8 @@ jobs:
           git tag versioning
           git commit -m 'Update Version'
 
-          git rebase main develop
+          git switch develop
+          git rebase main
 
           git add -A
           git tag versioning
