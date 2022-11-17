@@ -33,7 +33,7 @@ jobs:
 
       - name: Update Versioning
         run: |
-          git branch
+          git branch --list --all
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
 
@@ -54,7 +54,7 @@ jobs:
       - name: Rebase Develop on Main to update the version number
         if: success()
         run: |
-          git branch
+          git branch --list --all
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
 
