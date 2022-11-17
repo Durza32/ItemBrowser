@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - develop
+    tags-ignore:
+      - versioning
+    paths-ignore:
+      - 'config.json'
 
 jobs:
   setup-and-build-develop-branch:
@@ -37,6 +41,7 @@ jobs:
           node versioning/patchVersion.mjs
 
           git add -A
+          git tag versioning
           git commit -m 'Update Version'
           git push
 

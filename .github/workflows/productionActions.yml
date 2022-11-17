@@ -39,7 +39,17 @@ jobs:
           node versioning/minorVersion.mjs
 
           git add -A
+          git tag versioning
           git commit -m 'Update Version'
+
+          git rebase main develop
+
+          git add -A
+          git tag versioning
+          git commit -m 'Update Version'
+          git push -f
+
+          git switch main
 
       - name: Push to protected branch
         if: success()
