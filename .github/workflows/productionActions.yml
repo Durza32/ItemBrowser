@@ -41,7 +41,6 @@ jobs:
           token: ${{ secrets.PUSH_TO_PROTECTED_BRANCH }}
           branch: main
           unprotect_reviews: true
-          ref: refs/heads/main
 
       - name: Build
         run: npm run build
