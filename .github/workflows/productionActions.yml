@@ -42,6 +42,21 @@ jobs:
           git tag versioning
           git commit -m 'Update Version'
 
+      - name: Push to protected branch
+        if: success()
+        uses: CasperWA/push-protected@v2.14.0
+        with:
+          token: ${{ secrets.PUSH_TO_PROTECTED_BRANCH }}
+          branch: main
+          unprotect_reviews: true
+
+      - name: Rebase Develop on Main to update the version number
+        if: success()
+        run: |
+          echo git branch
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+
           git checkout develop
           git rebase main
 
@@ -51,14 +66,6 @@ jobs:
           git push -f
 
           git checkout main
-
-      - name: Push to protected branch
-        if: success()
-        uses: CasperWA/push-protected@v2.14.0
-        with:
-          token: ${{ secrets.PUSH_TO_PROTECTED_BRANCH }}
-          branch: main
-          unprotect_reviews: true
 
       - name: Build
         run: npm run build
