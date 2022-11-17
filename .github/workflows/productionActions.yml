@@ -1,4 +1,4 @@
-name: ${{ github.event.repository.name }} Production Actions
+name: Example Mod Production Actions
 
 on:
   pull_request:
