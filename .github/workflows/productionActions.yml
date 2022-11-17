@@ -1,4 +1,4 @@
-name: Melvor Idle Example Mod Actions
+name: ${{ github.event.repository.name }} Production Actions
 
 on:
   pull_request:
