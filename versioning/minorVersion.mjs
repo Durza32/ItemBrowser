@@ -19,5 +19,6 @@ const updateMinorVersion = (fileData) => {
       console.log(err)
       throw Error
     }
+    console.log(JSON.stringify(fileData, null, 2))
   })
 }
