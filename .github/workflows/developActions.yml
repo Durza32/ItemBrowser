@@ -63,6 +63,9 @@ jobs:
       - name: Set up files
         uses: actions/checkout@v3
 
+      - name: Pull New Commit
+        run: git pull
+
       - name: Download Artifact
         uses: actions/download-artifact@v3
         with:
