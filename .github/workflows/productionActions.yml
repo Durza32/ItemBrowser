@@ -32,7 +32,15 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Update Versioning
-        run: node versioning/minorVersion.mjs
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+
+          node versioning/patchVersion.mjs
+
+          git add -A
+          git commit -m 'Update Version'
+          git push
 
       - name: Build
         run: npm run build
@@ -56,6 +64,9 @@ jobs:
     steps:
       - name: Set up files
         uses: actions/checkout@v3
+
+      - name: Pull New Commit
+        run: git pull
 
       - name: Download Artifact
         uses: actions/download-artifact@v3
