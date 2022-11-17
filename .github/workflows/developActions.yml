@@ -35,7 +35,7 @@ jobs:
 
       - name: Update Versioning
         run: |
-          git branch
+          git branch --list --all
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
 
