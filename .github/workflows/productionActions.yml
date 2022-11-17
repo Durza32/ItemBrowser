@@ -32,15 +32,14 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Update Versioning
-        run: |
-          git config user.name "GitHub Actions Bot"
-          git config user.email "<>"
+        run: node versioning/patchVersion.mjs
 
-          node versioning/patchVersion.mjs
-
-          git add -A
-          git commit -m 'Update Version'
-          git push
+      - name: Push to protected branch
+        uses: CasperWA/push-protected@v2.14.0
+        with:
+          token: ${{ secrets.PUSH_TO_PROTECTED_BRANCH }}
+          branch: main
+          unprotect_reviews: true
 
       - name: Build
         run: npm run build
