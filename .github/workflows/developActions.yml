@@ -29,6 +29,9 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: yarn install --frozen-lockfile
 
+      - name: Update Versioning
+        run: node versioning/patchVersion.mjs
+
       - name: Build
         run: npm run build
 
@@ -51,9 +54,6 @@ jobs:
     steps:
       - name: Set up files
         uses: actions/checkout@v3
-
-      - name: Update Versioning
-        run: node versioning/patchVersion.mjs
 
       - name: Download Artifact
         uses: actions/download-artifact@v3
