@@ -1,4 +1,4 @@
-name: Melvor Idle Example Mod Actions
+name: Example Mod Development Actions
 
 on:
   push:
