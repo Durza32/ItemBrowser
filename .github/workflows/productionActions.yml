@@ -32,7 +32,14 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Update Versioning
-        run: node versioning/minorVersion.mjs
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+
+          node versioning/minorVersion.mjs
+
+          git add -A
+          git commit -m 'Update Version'
 
       - name: Push to protected branch
         if: success()
