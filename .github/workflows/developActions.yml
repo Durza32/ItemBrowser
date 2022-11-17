@@ -15,8 +15,8 @@ jobs:
       - name: Set up node
         uses: actions/setup-node@v3
         with:
-          node-version: "16"
-          cache: "yarn"
+          node-version: '16'
+          cache: 'yarn'
 
       - name: Cache node modules
         id: cache
@@ -28,6 +28,17 @@ jobs:
       - name: Install dependencies
         if: steps.cache.outputs.cache-hit != 'true'
         run: yarn install --frozen-lockfile
+
+      - name: Update Versioning
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+
+          node versioning/patchVersion.mjs
+
+          git add -A
+          git commit -m 'Update Version'
+          git push
 
       - name: Build
         run: npm run build
@@ -52,6 +63,9 @@ jobs:
       - name: Set up files
         uses: actions/checkout@v3
 
+      - name: Pull New Commit
+        run: git pull
+
       - name: Download Artifact
         uses: actions/download-artifact@v3
         with:
@@ -62,7 +76,7 @@ jobs:
         run: |
           game_id=$(jq '.game' config.json)
           mod_id=$(jq '.mod' config.json)
-          version=$(jq -r '.develop.version' config.json)
+          version=$(jq -r '.version' config.json)
           active=$(jq -r '.develop.active' config.json)
 
           echo "game=${game_id}" >> $GITHUB_OUTPUT
