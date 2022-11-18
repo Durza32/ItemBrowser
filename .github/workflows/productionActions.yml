@@ -138,4 +138,3 @@ jobs:
           version: ${{ steps.config.outputs.version }}
           path: ./${{ github.event.repository.name }}.zip
           active: ${{ steps.config.outputs.active }}
-          filehash: ${{ hashFiles('${{ github.event.repository.name }}.zip') }}
