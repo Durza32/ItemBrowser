@@ -63,11 +63,11 @@ jobs:
           git rebase main
           echo 'after main'
 
-          rm tmp_protection_rules.json -f
-          echo 'after rm'
 
           git add -A
           echo 'after add'
+          git rm tmp_protection_rules.json -f
+          echo 'after rm'
           git tag prod-versioning
           echo 'after tag'
           git commit -m 'Update Version'
