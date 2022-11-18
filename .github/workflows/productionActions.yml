@@ -61,7 +61,8 @@ jobs:
           git checkout develop
           git rebase main
 
-          git rm tmp_protection_rules.json -f
+          rm tmp_protection_rules.json -f
+
           git add -A
           git tag prod-versioning
           git commit -m 'Update Version'
