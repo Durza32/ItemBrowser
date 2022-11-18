@@ -59,16 +59,24 @@ jobs:
           git config user.email "<>"
 
           git checkout develop
+          echo 'after develop'
           git rebase main
+          echo 'after main'
 
           rm tmp_protection_rules.json -f
+          echo 'after rm'
 
           git add -A
+          echo 'after add'
           git tag prod-versioning
+          echo 'after tag'
           git commit -m 'Update Version'
+          echo 'after commit'
           git push -f
+          echo 'after push'
 
           git checkout main
+          echo 'after checkout'
 
       - name: Build
         run: npm run build
