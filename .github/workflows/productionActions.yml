@@ -71,8 +71,6 @@ jobs:
           echo 'after rm'
           git tag prod-versioning
           echo 'after tag'
-          git commit -m 'Update Version'
-          echo 'after commit'
           git push -f
           echo 'after push'
 
