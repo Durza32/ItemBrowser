@@ -1,11 +1,21 @@
 {
   "game": 2869,
   "mod": 2431214,
-  "version": "0.3.0",
+  "version": "8.5.4",
   "develop": {
-    "active": false
+    "active": false,
+    "versioning": {
+      "useAutomaticVersioning": true,
+      "versionChangeOnUpload": "patch",
+      "resetLower": true
+    }
   },
   "production": {
-    "active": true
+    "active": true,
+    "versioning": {
+      "useAutomaticVersioning": true,
+      "versionChangeOnUpload": "minor",
+      "resetLower": true
+    }
   }
 }
