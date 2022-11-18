@@ -11,15 +11,18 @@ jobs:
   setup-and-build-production-branch:
     runs-on: ubuntu-22.04
     steps:
+      # Copy all files to the working dir
       - name: Set up files
         uses: actions/checkout@v3
 
+      # Set up node and cache it to save time
       - name: Set up node
         uses: actions/setup-node@v3
         with:
           node-version: '16'
           cache: 'yarn'
 
+      # Cache the node_modules folder to avoid having to download it everytime
       - name: Cache node modules
         id: cache
         uses: actions/cache@v3
@@ -27,13 +30,16 @@ jobs:
           path: ./node_modules
           key: ${{ github.ref_name }}-modules-${{ hashFiles('yarn.lock') }}
 
+      # If the node_modules folder changed or doesnt exist, run the install command
       - name: Install dependencies
         if: steps.cache.outputs.cache-hit != 'true'
         run: yarn install --frozen-lockfile
 
+      # Run the minorVersioning module to update the minor version number
+      # Reset the patch version number to 0
+      # Commit the changes
       - name: Update Versioning
         run: |
-          git branch --list --all
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
 
@@ -43,6 +49,7 @@ jobs:
           git tag versioning
           git commit -m 'Update Version'
 
+      # Use a custom action to push the version number changes to the protected branch 'main'
       - name: Push to protected branch
         if: success()
         uses: CasperWA/push-protected@v2.14.0
@@ -51,63 +58,63 @@ jobs:
           branch: main
           unprotect_reviews: true
 
+      # Rebase the develop branch on main to update to the correct version number
       - name: Rebase Develop on Main to update the version number
         if: success()
         run: |
-          git branch --list --all
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
 
           git checkout develop
-          echo 'after develop'
           git rebase main
-          echo 'after main'
-
-          git branch --list --all
 
           git add -A
-          echo 'after add'
           git rm tmp_protection_rules.json -f
-          echo 'after rm'
           git tag prod-versioning
-          echo 'after tag'
           git push -f
-          echo 'after push'
 
           git checkout main
-          echo 'after checkout'
 
+      # Build stage
       - name: Build
         run: npm run build
 
+      # Copy the manifest file into the build folder so it can be zipped
       - name: Copy Manifest.json
         run: cp manifest.json ./.build/
 
+      # Zip the build file
       - name: Zip mod folder
-        run: zip -r ./.build/exampleMod.zip ./.build/
+        run: zip -r ./.build/${{ github.event.repository.name }}.zip ./.build/
 
+      # Upload the zip file as an artifact so it can be used in a later job
       - name: Upload Artifact
         if: success()
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ github.ref_name }}-exampleModZipFile
-          path: ./.build/exampleMod.zip
+          name: ${{ github.ref_name }}-${{ github.event.repository.name }}ZipFile
+          path: ./.build/${{ github.event.repository.name }}.zip
 
   upload-production-branch:
     needs: setup-and-build-production-branch
     runs-on: ubuntu-22.04
     steps:
+      # Copy all files to the working dir
       - name: Set up files
         uses: actions/checkout@v3
 
+      # Pull the new version number
       - name: Pull New Commit
         run: git pull
 
+      # Download the zip file that was uploaded in the previous job
       - name: Download Artifact
         uses: actions/download-artifact@v3
         with:
-          name: ${{ github.ref_name }}-exampleModZipFile
+          name: ${{ github.ref_name }}-${{ github.event.repository.name }}ZipFile
 
+      # Pull config data from config.json to be used in the upload to mod.io
+      # This gets the 'active' variable from the production section of config.json
       - name: Extract config data
         id: config
         run: |
@@ -121,6 +128,7 @@ jobs:
           echo "version=${version}" >> $GITHUB_OUTPUT
           echo "active=${active}" >> $GITHUB_OUTPUT
 
+      # Use a custom action to upload the zip file to mod.io using variables from config.json
       - name: Upload to mod.io
         uses: nickelc/upload-to-modio@v2.0.0
         with:
@@ -128,5 +136,5 @@ jobs:
           game: ${{ steps.config.outputs.game }}
           mod: ${{ steps.config.outputs.mod }}
           version: ${{ steps.config.outputs.version }}
-          path: ./exampleMod.zip
+          path: ./${{ github.event.repository.name }}.zip
           active: ${{ steps.config.outputs.active }}
