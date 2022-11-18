@@ -43,7 +43,7 @@ jobs:
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
 
-          node versioning/minorVersion.mjs
+          node version.mjs production
 
           git add -A
           git tag versioning

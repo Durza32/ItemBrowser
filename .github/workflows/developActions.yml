@@ -38,14 +38,14 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: yarn install --frozen-lockfile
 
-      # Run the patchVersioning module to update the patch version number
+      # Run the version module to update the version number
       # Commit the changes and push them to the branch
       - name: Update Versioning
         run: |
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
 
-          node versioning/patchVersion.mjs
+          node version.mjs develop
 
           git add -A
           git tag dev-versioning
