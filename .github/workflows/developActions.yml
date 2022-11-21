@@ -99,11 +99,13 @@ jobs:
           mod_id=$(jq '.mod' config.json)
           version=$(jq -r '.version' config.json)
           active=$(jq -r '.develop.active' config.json)
+          type=$(jq -r '.tags.type' config.json)
 
           echo "game=${game_id}" >> $GITHUB_OUTPUT
           echo "mod=${mod_id}" >> $GITHUB_OUTPUT
           echo "version=${version}" >> $GITHUB_OUTPUT
           echo "active=${active}" >> $GITHUB_OUTPUT
+          echo "type=${type}" >> $GITHUB_OUTPUT
 
       # Use a custom action to upload the zip file to mod.io using variables from config.json
       - name: Upload to mod.io

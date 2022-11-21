@@ -17,5 +17,11 @@
       "versionChangeOnUpload": "minor",
       "resetLower": true
     }
+  },
+  "tags": {
+    "type": ["Tool", "Patch"],
+    "platform": ["Steam", "Browser"],
+    "supported_game_version": ["1.1.1"],
+    "requires": ["Throne of the Herald"]
   }
 }
