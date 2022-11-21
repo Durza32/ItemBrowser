@@ -1,7 +1,7 @@
 {
   "game": 2869,
   "mod": 2431214,
-  "version": "8.6.2",
+  "version": "8.6.3",
   "develop": {
     "active": false,
     "versioning": {
@@ -19,9 +19,19 @@
     }
   },
   "tags": {
-    "type": ["Tool", "Patch"],
-    "platform": ["Steam", "Browser"],
-    "supported_game_version": ["1.1.1"],
-    "requires": ["Throne of the Herald"]
+    "type": [
+      "Tool",
+      "Patch"
+    ],
+    "platform": [
+      "Steam",
+      "Browser"
+    ],
+    "supported_game_version": [
+      "1.1.1"
+    ],
+    "requires": [
+      "Throne of the Herald"
+    ]
   }
 }
