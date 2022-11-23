@@ -105,7 +105,10 @@ jobs:
           echo "mod=${mod_id}" >> $GITHUB_OUTPUT
           echo "version=${version}" >> $GITHUB_OUTPUT
           echo "active=${active}" >> $GITHUB_OUTPUT
-          echo "type=${type}" >> $GITHUB_OUTPUT
+
+          echo "type<<'" >> $GITHUB_OUTPUT
+          echo "$type" >> $GITHUB_OUTPUT
+          echo "'" >> $GITHUB_OUTPUT
 
       - name: Echo
         id: echo
