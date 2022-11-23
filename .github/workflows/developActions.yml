@@ -107,6 +107,11 @@ jobs:
           echo "active=${active}" >> $GITHUB_OUTPUT
           echo "type=${type}" >> $GITHUB_OUTPUT
 
+      - name: Echo
+        id: echo
+        run: |
+          echo "type: ${{ steps.config.outputs.type }}"
+
       # Use a custom action to upload the zip file to mod.io using variables from config.json
       - name: Upload to mod.io
         uses: nickelc/upload-to-modio@v2.0.0
